@@ -2,12 +2,10 @@
 
 import { z } from 'zod';
 import type { CaseFetchResult } from '@/lib/types';
+import { generateCaseDetails } from '@/ai/flows/generate-case-details';
+import { GenerateCaseDetailsInputSchema } from '@/lib/types';
 
-const formSchema = z.object({
-  caseType: z.string().min(1, 'Case type is required.'),
-  caseNumber: z.string().min(1, 'Case number is required.').regex(/^\d+$/, "Case number must be a number."),
-  year: z.string().min(4, 'Year is required.'),
-});
+const formSchema = GenerateCaseDetailsInputSchema;
 
 // Simulate network delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -26,15 +24,15 @@ export async function fetchCaseDetailsAction(
     if (!validatedFields.success) {
       return {
         success: false,
-        error: validatedFields.error.errors.map((e) => e.message).join(', '),
+        error: validatedFields.error.flatten().fieldErrors.caseType?.[0] || validatedFields.error.flatten().fieldErrors.caseNumber?.[0] || validatedFields.error.flatten().fieldErrors.year?.[0] || 'Invalid input.',
       };
     }
 
     const { caseNumber, caseType, year } = validatedFields.data;
-
-    await delay(1500);
-
+    
+    // For demonstration, we still keep some specific mock error cases
     if (caseNumber === '9999') {
+      await delay(1000);
       return {
         success: false,
         error: 'Case not found. Please check the details and try again.',
@@ -42,11 +40,15 @@ export async function fetchCaseDetailsAction(
     }
     
     if (caseNumber === '500') {
+      await delay(1000);
       return {
           success: false,
           error: 'The court website appears to be down. Please try again later.'
       }
     }
+
+    // Call the AI flow to generate dynamic case details
+    const aiGeneratedDetails = await generateCaseDetails({ caseNumber, caseType, year });
 
     return {
       success: true,
@@ -54,39 +56,14 @@ export async function fetchCaseDetailsAction(
         caseType,
         caseNumber,
         year,
-        petitioner: 'John Doe & Associates',
-        respondent: 'Jane Smith Corp.',
-        filingDate: '15-03-2023',
-        nextHearingDate: '28-08-2024',
-        status: 'Pending',
-        orders: [
-          {
-            date: '10-07-2024',
-            description: 'Order on application for interim relief.',
-            pdfUrl: '#',
-          },
-          {
-            date: '25-05-2024',
-            description: 'Scheduling order for next hearing.',
-            pdfUrl: '#',
-          },
-          {
-            date: '02-04-2024',
-            description: 'Notice of appearance filed by respondent.',
-            pdfUrl: '#',
-          },
-          {
-            date: '15-03-2023',
-            description: 'Initial case filing document.',
-            pdfUrl: '#',
-          },
-        ],
+        ...aiGeneratedDetails
       },
     };
   } catch (e) {
+    console.error(e);
     return {
       success: false,
-      error: 'An unexpected error occurred. Please try again.'
+      error: 'An AI error occurred. Please try again.'
     }
   }
 }
