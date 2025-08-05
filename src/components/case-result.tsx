@@ -74,11 +74,9 @@ export function CaseResult({ details }: { details: CaseDetails }) {
                   <TableCell className="font-medium">{order.date}</TableCell>
                   <TableCell>{order.description}</TableCell>
                   <TableCell className="text-right">
-                    <Button asChild size="sm" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }} >
-                      <a href={order.pdfUrl} target="_blank" rel="noopener noreferrer">
-                        <Download className="mr-2 h-4 w-4" />
-                        Download
-                      </a>
+                    <Button size="sm" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }} disabled>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
                     </Button>
                   </TableCell>
                 </TableRow>
