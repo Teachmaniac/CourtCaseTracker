@@ -17,7 +17,7 @@ const prompt = ai.definePrompt({
   name: 'generateCaseDetailsPrompt',
   input: {schema: GenerateCaseDetailsInputSchema},
   output: {schema: GenerateCaseDetailsOutputSchema},
-  prompt: `You are a helpful assistant that creates mock data for a court case tracking application. 
+  prompt: `You are a helpful assistant that creates mock data for a court case tracking application for the Faridabad courts.
   
   Generate realistic details for the following case:
   Case Type: {{{caseType}}}

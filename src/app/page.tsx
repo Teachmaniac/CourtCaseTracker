@@ -112,7 +112,7 @@ export default function Home() {
               </h1>
             </div>
             <p className="mt-2 text-lg text-muted-foreground">
-              Enter the details below to fetch the latest case information and orders from the Delhi High Court.
+              Enter the details below to fetch the latest case information and orders from the Faridabad courts.
             </p>
           </div>
 
