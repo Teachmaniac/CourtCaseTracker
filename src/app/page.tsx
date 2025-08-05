@@ -1,7 +1,8 @@
+
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useEffect, useRef, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { Gavel } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -84,7 +85,7 @@ function ResultSkeleton() {
 }
 
 export default function Home() {
-  const [state, formAction] = useFormState(fetchCaseDetailsAction, initialState);
+  const [state, formAction] = useActionState(fetchCaseDetailsAction, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const { pending } = useFormStatus();
