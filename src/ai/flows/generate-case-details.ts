@@ -26,6 +26,9 @@ const prompt = ai.definePrompt({
   
   Please generate the following fields with plausible, fictional data. The petitioner and respondent should be creative names of individuals or companies. The orders should be sorted with the most recent date first.
   `,
+  config: {
+    temperature: 1.0,
+  }
 });
 
 const generateCaseDetailsFlow = ai.defineFlow(
