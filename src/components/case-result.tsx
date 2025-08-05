@@ -1,8 +1,8 @@
 import type { CaseDetails } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Download, Users, Scale, Calendar, ChevronsRight, FileText } from 'lucide-react';
+import { DownloadOrderButton } from './download-order-button';
+import { Users, Scale, Calendar, ChevronsRight, FileText } from 'lucide-react';
 import { Badge } from './ui/badge';
 
 function InfoField({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string | React.ReactNode }) {
@@ -74,10 +74,7 @@ export function CaseResult({ details }: { details: CaseDetails }) {
                   <TableCell className="font-medium">{order.date}</TableCell>
                   <TableCell>{order.description}</TableCell>
                   <TableCell className="text-right">
-                    <Button size="sm" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }} disabled>
-                      <Download className="mr-2 h-4 w-4" />
-                      Download
-                    </Button>
+                    <DownloadOrderButton order={order} />
                   </TableCell>
                 </TableRow>
               ))}
